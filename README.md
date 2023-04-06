@@ -13,3 +13,17 @@ major steps:
    1. be careful of doors and irregularly shaped rooms
 5. Calculate Room SQFT
 6. Visualize Floorplan with rooms
+
+
+Next Steps:
+- inclusion/exclusion algorithm
+- threshold function
+  
+
+Front End:
+- add wall tool
+- brushup tool
+- crop to floorplan tool
+- metric to pixel tool
+- adjust threshold tool (slider up and down)
+- 
