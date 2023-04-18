@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os
 import sys
 import subprocess
-from Room import Room
+from Room_Old import Room
 
 
 class FloorPlan:
@@ -30,7 +30,7 @@ class FloorPlan:
 
         # shape pixels into matrix same size as image
         self.matrix = np.array(data).reshape(self.height, -1)
-        print(self.matrix)
+        # print(self.matrix)
 
     def toGraph(self):
         x = list()
@@ -71,8 +71,8 @@ class FloorPlan:
 
 
 if __name__ == "__main__":
-    filename = "test10x20_2.png"
-    filename = "1600sqft.jpg"
+    # filename = "images/test10x20_2.png"
+    filename = "images/1600sqft.jpg"
 
     fp = FloorPlan(filename)
     sys.setrecursionlimit(fp.width*fp.height)
@@ -84,18 +84,21 @@ if __name__ == "__main__":
     room.findRooms()
 
     print(fp.width, fp.height)
+
+    # fig = plt.figure()
     plt.xlim(-1, fp.width+1)
     plt.ylim(-1, fp.height+1)
     plt.autoscale(False)
-    x = list()
-    y = list()
+    # axis = fig.add_subplot()
 
     for r in room.rooms[1:]:
         print(r)
+        x = []
+        y = []
         for pt in r:
-            # print(pt[0], fp.height-pt[1])
+            print(pt[0], fp.height-pt[1])
             x.append(pt[0])
             y.append(fp.height - pt[1])
 
-    plt.scatter(x, y, s=0.5, marker=',')
+        plt.scatter(x, y, s=0.5, marker=',')
     plt.show()

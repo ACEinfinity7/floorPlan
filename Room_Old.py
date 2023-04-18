@@ -55,7 +55,7 @@ class Room:
                 self._findRooms(x, y, room)
                 # print(room)
                 if room != []:
-                    print(room)
+                    # print(room)
                     self.rooms.append(room)
 
         # for room in self.rooms:
