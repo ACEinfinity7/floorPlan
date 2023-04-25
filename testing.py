@@ -2,6 +2,8 @@ from PIL import Image
 from PIL import ImageFilter
 import smartcrop
 import json
+import numpy as np
+
 # filename = "images/1600sqft.jpg"
 
 # img = Image.open(filename, mode='r').filter(
@@ -24,11 +26,15 @@ print(l1)
 # r.show()
 
 
-filename = "images/1600sqft.jpg"
-img = Image.open(filename).convert("RGB")
-sc = smartcrop.SmartCrop()
-res = sc.crop(img, 500, 500)
-# print(json.dumps(res, indent=2))
-for entry in res:
-    print(res[entry])
-3 
+# filename = "images/1600sqft.jpg"
+# img = Image.open(filename).convert("RGB")
+# sc = smartcrop.SmartCrop()
+# res = sc.crop(img, 500, 500)
+# # print(json.dumps(res, indent=2))
+# for entry in res:
+#     print(res[entry])
+u = 2.3522
+v = 48.8566
+
+print(f'theta: {u*np.pi/180 + 2*np.pi} phi: {np.abs((v-90)*np.pi/180)}')
+print(np.pi/2)
