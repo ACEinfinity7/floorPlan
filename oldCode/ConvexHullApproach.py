@@ -13,7 +13,7 @@ def fn(filename):
     x = [1, 1, 1,
          1, -9, 1,
          1, 1, 1]
-
+    # img.show()
     # print(img.mode)
     img = img.filter(ImageFilter.Kernel((3, 3), x, scale=1, offset=2))
     # img.show()
@@ -135,5 +135,5 @@ filenames = ["1600sqft.copy.jpg",
              "floorplan 6.jpeg",
              "floor plan 7.jpeg"]
 
-for filename in filenames:
+for filename in filenames[:1]:
     fn("images/" + filename)
