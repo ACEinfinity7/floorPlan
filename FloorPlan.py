@@ -135,8 +135,6 @@ class FloorPlan:
         if x < self.width-1:
             self._traverse(x+1, y)
 
-        print(x, y)
-
     def __init__(self, matrix: list, scale: int = 10) -> None:
         self.matrix = matrix
         self.scale = scale
@@ -146,34 +144,20 @@ class FloorPlan:
 
         sys.setrecursionlimit(self.width * self.height)
 
-        # for y in range(self.height):
-        #     for x in range(self.width):
-        #         self._traverse(x, y)
         self._traverse(0, 0)
 
-        plt.xlim(-1, self.width+1)
-        plt.ylim(-1, self.height+1)
-        plt.autoscale(False)
-
-        X, Y = [], []
+        self.pts = []  # list of tuples (x,y)
         for y in range(self.height):
             for x in range(self.width):
                 if self.visited[y][x] == 0:
-                    X.append(x)
-                    Y.append(self.height-y)
+                    self.pts.append((x, y))
 
-        # fig, ax = plt.subplots()
-        plt.scatter(X, Y, s=1, marker=',')
-        plt.show()
+    def setScale(self, scale: int) -> int:
+        self.scale = scale
+        return self.scale
 
-        with open("out.txt", "w") as f:
-            for row in self.visited:
-                for elem in row:
-                    if elem == 1:
-                        f.write("*")
-                    else:
-                        f.write(" ")
-                f.write("\n")
+    def getSqft(self) -> int:
+        return int(len(self.pts) / self.scale)
 
 
 filename = "images/1600sqft.copy.jpg"
@@ -181,7 +165,24 @@ file = FileLoader(filename)
 file.denoise().erode().black_and_white()
 data = file.get_data()
 img = file.get_image()
-img.show()
-fp = FloorPlan(data)
+# img.show()
+fp = FloorPlan(data, 92)
+print(fp.getSqft())
 
 anim = Anim(img, file.width, file.height)
+
+
+#  plt.xlim(-1, self.width+1)
+#         plt.ylim(-1, self.height+1)
+#         plt.autoscale(False)
+
+#         X, Y = [], []
+#         for y in range(self.height):
+#             for x in range(self.width):
+#                 if self.visited[y][x] == 0:
+#                     X.append(x)
+#                     Y.append(self.height-y)
+
+#         # fig, ax = plt.subplots()
+#         plt.scatter(X, Y, s=1, marker=',')
+#         plt.show()
