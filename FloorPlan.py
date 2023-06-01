@@ -2,19 +2,7 @@ from PIL import Image, ImageFilter, ImageOps
 import numpy as np
 import sys
 from matplotlib import pyplot as plt
-from scipy.spatial import ConvexHull
-from enum import Enum
 import cv2
-from celluloid import Camera
-
-
-class Anim:
-
-    def __init__(self, img: Image, width, height) -> None:
-        self.xFrames = []
-        self.yFrames = []
-        self.width, self.height = width,  height
-        self.img = img
 
 
 class FileLoader:
@@ -101,11 +89,11 @@ class FloorPlan:
     ANIMATE = False
 
     def _traverse(self, x, y):
-        #  print(x, y)
         if self.visited[y][x] != 0:
             return
 
         if self.matrix[y][x] == 0:
+
             return
 
         self.visited[y][x] = 1
@@ -119,6 +107,10 @@ class FloorPlan:
             if (x < self.width-1):
                 # bottom right
                 self._traverse(x+1, y+1)
+                # right
+
+        if x < self.width-1:
+            self._traverse(x+1, y)
         # up
         if y > 1:
             self._traverse(x, y-1)
@@ -131,9 +123,6 @@ class FloorPlan:
         # left
         if x > 1:
             self._traverse(x-1, y)
-        # right
-        if x < self.width-1:
-            self._traverse(x+1, y)
 
     def __init__(self, matrix: list, scale: int = 10) -> None:
         self.matrix = matrix
@@ -160,29 +149,31 @@ class FloorPlan:
         return int(len(self.pts) / self.scale)
 
 
-filename = "images/1600sqft.copy.jpg"
+filename = "images/1600sqft.jpg"
 file = FileLoader(filename)
-file.denoise().erode().black_and_white()
+file.sharpen().erode().black_and_white()
 data = file.get_data()
 img = file.get_image()
-# img.show()
-fp = FloorPlan(data, 92)
+# 1600 - 78
+# 1480 - 36
+fp = FloorPlan(data, 78)
 print(fp.getSqft())
+img.show()
 
-anim = Anim(img, file.width, file.height)
+x, y = [], []
+for row in range(file.height):
+    for col in range(file.width):
+        if (data[row][col] == 0):
+            x.append(col)
+            y.append(file.height-row)
 
+plt.scatter(x, y, s=1, marker=',', c='#000000')
 
-#  plt.xlim(-1, self.width+1)
-#         plt.ylim(-1, self.height+1)
-#         plt.autoscale(False)
+x, y = [], []
+for pt in fp.pts:
+    x.append(pt[0])
+    y.append(file.height-pt[1])
 
-#         X, Y = [], []
-#         for y in range(self.height):
-#             for x in range(self.width):
-#                 if self.visited[y][x] == 0:
-#                     X.append(x)
-#                     Y.append(self.height-y)
+plt.scatter(x, y, s=1, marker=',', c="#00FF00", alpha=0.2)
 
-#         # fig, ax = plt.subplots()
-#         plt.scatter(X, Y, s=1, marker=',')
-#         plt.show()
+plt.show()

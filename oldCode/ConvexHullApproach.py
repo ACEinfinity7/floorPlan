@@ -127,13 +127,11 @@ def fn(filename):
     print(int(hull.volume/92))
 
 
-filenames = ["1600sqft.copy.jpg",
-             "floorplan 1.webp",
-             "floorplan 2.webp",
+filenames = ["1600sqft.jpg",
              "floorplan 4 copy.jpg",
              "floorplan 5.jpeg",
              "floorplan 6.jpeg",
              "floor plan 7.jpeg"]
 
-for filename in filenames[:1]:
+for filename in filenames:
     fn("images/" + filename)
